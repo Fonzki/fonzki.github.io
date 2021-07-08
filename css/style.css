@@ -1,17 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+html {
+    background: #333;
+}
+
 body {
     font-family: "Roboto";
+    color: #ddd;
+    text-shadow: 1px 3px black;
+}
+
+h3, h4, h5 {
+    margin-bottom: 0;
 }
 
 .width-100 {
     width: 100%;
 }
 
-.margin-on-top {
-     margin-top: 20%;
+article {
+    margin-bottom: 10%;
 }
 
-.margin-at-bottom {
-     margin-bottom: 30%;
+.margin-on-top {
+     margin-top: 10%;
 }
