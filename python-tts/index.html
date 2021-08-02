@@ -1,0 +1,183 @@
+<html>
+<head>
+    <title>tts file python script</title> 
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+</head>    
+<body>
+    <div class="full-width">
+        <div class="width-80 center-margin">
+    
+    <img src="smug.png" class="smug"/> 
+    <h1>Make TTS mp3s with Google Translate voices<br>(about 15min setup)</h1>
+
+    <h3>1. get Python programming language</h3> 
+    <p>
+        official site download link:
+        <a href="https://www.python.org/downloads/">download</a> 
+    </p> 
+
+    <h3>2. add Python to path</h3> 
+    <img src="python_install.jpg">
+    <p>
+        need to add to path to do next steps.<br>
+        we'll be able to run Python scripts without typing extra file location info now.<br>
+        <br>
+        default settings on [Install Now] should be good.
+    </p> 
+
+    <h3>3. open Command Prompt</h3> 
+    <img src="command_prompt.jpg">
+    <p>
+        use the search in the start menu. <br>
+        search for [Command Prompt]
+    </p> 
+
+    <h3>4. add gTTS(Google Text-To-Speech) to Python</h3> 
+    <img src="commands.jpg">
+    <p>
+        more info about gTTS: 
+        <a href="https://gtts.readthedocs.io/en/latest/index.html">gTTS documentation</a><br>
+        <em>we're entering 3 commands (enter 1 line at a time):</em><br>
+        <small><em>leave command prompt open after entering commands</em></small><br>
+        <code>
+            <strong>cd</strong> %homepath%<br>
+            <strong>mkdir</strong> tts-folder &amp;&amp; <strong>cd</strong> tts-folder<br>
+            <strong>pip</strong> install gTTS
+        </code>
+        <em>what this does:</em> 
+        <ol>
+            <li>goes to your user's home folder (in case Command Prompt opens somewhere weird)</li> 
+            <li>makes a folder called [tts-folder] and goes into it</li> 
+            <li>adds Google TTS code to Python</li> 
+        </ol> 
+    </p> 
+
+    <h3>5. go to tts-folder and add new file</h3> 
+    <img src="text_doc.jpg">
+    <img src="rename.jpg">
+    <p>
+        this folder should be at C:\Users\[your username]\tts-folder<br>
+        right-click / then look for New / then Text Document <br>
+        rename it to <strong>tts.py</strong><br>
+        hit yes.
+    </p> 
+
+    <h3>6. open tts.py with IDLE (Python's text editor)</h3> 
+    <img src="idle_edit.jpg">
+    <p>
+        right-click / then look for [Edit with IDLE] / then [Edit with IDLE]<br>
+    </p> 
+
+    <h3>7. write (copy n paste) the script</h3> 
+    <img src="script_code.jpg">
+    <p>
+    <em>what the code does (3 sections):</em> 
+    <ol>
+        <li><strong>section one</strong> 
+            - add options to the script so you can change the read text and language</li> 
+        <li><strong>section two</strong> 
+            - generates the TTS, saves in it a file (output.mp3 by default)
+        </li> 
+        <li><strong>section three</strong> 
+            - if you use the '--play' option this plays output.mp3 after generating it
+        </li> 
+    </ol> 
+    <code>
+    <pre>
+<span class="section">
+# SECTION ONE - COMMAND PROMPT OPTIONS
+##  add text, filename, language, and play options
+##  so you don't have to rewrite the script ----------------------------------------------
+</span>
+import argparse
+
+parser = argparse.ArgumentParser(
+    description="generates TTS files with Google Translate voices."
+)
+
+parser.add_argument("-t","--text", help="text in quotes you want to read: \"like this\"")
+parser.add_argument("-f","--filename", help="tts output filename (no spaces): like-this")
+parser.add_argument("-l","--lang", help="language code, type [ gtts-cli --all ] to see all codes")
+parser.add_argument("--play", action="store_true", help="play TTS in your default MP3 player")
+
+args = parser.parse_args()
+
+text = "Jega Senesys"
+if args.text:
+    text = args.text
+
+code = "en"
+if args.lang:
+    code = args.lang
+
+filename = "output"
+if args.filename:
+    filename = args.filename
+
+<span class="section">
+# SECTION TWO - RUN GOOGLE TTS / MAKE TTS FILE
+##  code we added with 'pip install gTTS' ------------------------------------------------
+</span>
+
+from gtts import gTTS
+tts = gTTS(args.text, lang=code)
+tts.save(filename+'.mp3')
+
+
+<span class="section">
+# SECTION THREE - OPEN TTS MP3 FILE IN DEFAULT PLAYER
+##  will use system default program
+##  plays mp3s in Groove on Windows 10, i think ------------------------------------------
+</span>
+
+import os
+if args.play:
+    os.system("start " + filename + ".mp3")
+    </pre> 
+    </code> 
+    <strong>save the file and go back to Command Prompt</strong> 
+    </p> 
+
+    <h3>7. how to use the script (examples)</h3> 
+    <img src="tts_examples.jpg">
+    <p>
+    <em>we're running the script in the tts-folder</em><br>
+    <em>bold lines can be typed into Command Prompt in the tts-folder</em> 
+    <dl>
+        <code>
+            <dt>python tts.py --play</dt> 
+            <dd>uses defaults for text("Jega Senesys"), language("en"), filename("output.mp3"), plays file.</dd> 
+
+            <dt>python tts.py --text "today was a good day" --play</dt> 
+            <dd>replace default text, use default language + filename, plays file</dd> 
+
+            <dt>python tts.py --text "konnichiwatson" --lang ja --play</dt> 
+            <dd>replace default text + language("ja"-Japanese), use default filename, plays file</dd> 
+
+            <dt>python tts.py --text "konnichiwatson" --lang ja --filename kwatson --play</dt> 
+            <dd>replace default text + language + filename(kwatson.mp3), plays file</dd> 
+
+            <dt>python tts.py -t "konnichiwatson" -l ja -f konwatson --play</dt> 
+            <dd>similar to above but shorter, filename(konwatson.mp3), plays file</dd> 
+
+            <dt>python tts.py -t "konbanwatson" -l ja -f konbanwatson</dt> 
+            <dd>filename(konbanwatson.mp3), DOESN'T play file</dd>
+
+            <dt>python tts.py --help</dt> 
+            <dd>script help</dd>
+
+            <dt>gtts-cli --all</dt> 
+            <dd>lists other language codes you may wanna try.</dd>
+        </code>
+    </dl> 
+    </p> 
+
+    <h3>8. end</h3> 
+    <p>
+        hopefully this was the type of thing you were looking for. <strong>o7</strong>
+    </p> 
+        </div> 
+    </div> 
+</body>
+</html>
